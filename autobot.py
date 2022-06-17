@@ -67,6 +67,7 @@ while True:
 		print("info was none????")
 		continue
 
+	didstuff = False
 	for app in info["apps"]:
 		if "extended" in info["apps"][app] and "demoofappid" in info["apps"][app]["extended"]:
 			#thing = info["apps"][app]["extended"]["demoofappid"]
@@ -74,3 +75,8 @@ while True:
 			client.request_free_license([info["apps"][app]["appid"]])
 			time.sleep(0.3)
 			client.games_played([info["apps"][app]["appid"]])
+			didstuff = True
+
+	if didstuff:
+		time.sleep(1)
+		client.games_played([])

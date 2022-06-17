@@ -32,7 +32,10 @@ print(f"starting with change number {lastchange}!")
 #breakpoint()
 while True:
 	time.sleep(5)
-	res = client.get_changes_since(lastchange, app_changes=True, package_changes=False)
+	try:
+		res = client.get_changes_since(lastchange, app_changes=True, package_changes=False)
+	except:
+		res = None
 	if res is None:
 		print("skip")
 		continue
@@ -42,7 +45,6 @@ while True:
 	apps = []
 	for vvv in res.app_changes:
 		apps.append(vvv.appid)
-		if len(apps) > 5: break
 		print("AAAAAA {} - #{}".format(vvv.appid, vvv.change_number))
 		if vvv.change_number > lastchange:
 			lastchange = vvv.change_number
@@ -58,10 +60,13 @@ while True:
 	lcf.write(str(lastchange))
 	print(f"change number now = {lastchange}")
 
-	info = client.get_product_info(
-		apps,
-		packages
-	)
+	try:
+		info = client.get_product_info(
+			apps,
+			packages
+		)
+	except:
+		info = None
 
 	if info is None:
 		print("info was none????")

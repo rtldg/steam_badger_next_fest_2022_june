@@ -28,6 +28,7 @@ res = client.login(creds[0], creds[1], two_factor_code=creds[2])
 if res != 1:
 	print(f"failed to login... {res}")
 	sys.exit(1)
+client.change_status(persona_state=0) # steam.enums.common.EPersonaState.Offline
 print(f"starting with change number {lastchange}!")
 #breakpoint()
 while True:

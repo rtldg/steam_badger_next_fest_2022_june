@@ -59,11 +59,12 @@ while True:
 			newlastchange = vvv.change_number
 
 	if newlastchange > lastchange:
+		lastchange = newlastchange
 		lcf.seek(0)
-		lcf.write(str(lastchange))
-		print(f"change number now = {lastchange}")
+		lcf.write(str(newlastchange))
+		print(f"change number now = {newlastchange}")
 
-	if len(apps) == 0 and len(pakcages == 0):
+	if len(apps) == 0 and len(packages) == 00:
 		continue
 
 	try:

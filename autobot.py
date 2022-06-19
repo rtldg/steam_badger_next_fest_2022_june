@@ -43,23 +43,28 @@ while True:
 
 	print("{} package changes | {} app changes".format(len(res.package_changes), len(res.app_changes)))
 
+	newlastchange = lastchange
 	apps = []
 	for vvv in res.app_changes:
 		apps.append(vvv.appid)
 		print("AAAAAA {} - #{}".format(vvv.appid, vvv.change_number))
-		if vvv.change_number > lastchange:
-			lastchange = vvv.change_number
+		if vvv.change_number > newlastchange:
+			newlastchange = vvv.change_number
 
 	packages = []
 	for vvv in res.package_changes:
 		#packages.append(vvv.packageid)
 		print("______ {} - #{}".format(vvv.packageid, vvv.change_number))
-		if vvv.change_number > lastchange:
-			lastchange = vvv.change_number
+		if vvv.change_number > newlastchange:
+			newlastchange = vvv.change_number
 
-	lcf.seek(0)
-	lcf.write(str(lastchange))
-	print(f"change number now = {lastchange}")
+	if newlastchange > lastchange:
+		lcf.seek(0)
+		lcf.write(str(lastchange))
+		print(f"change number now = {lastchange}")
+
+	if len(apps) == 0 and len(pakcages == 0):
+		continue
 
 	try:
 		info = client.get_product_info(
@@ -70,7 +75,7 @@ while True:
 		info = None
 
 	if info is None:
-		print("info was none????")
+		print("info = None")
 		continue
 
 	didstuff = False
